@@ -396,6 +396,7 @@ public abstract class AppLockActivity extends PinActivity implements KeyboardBut
 
     protected void onPinCodeSuccess() {
         isCodeSuccessful = true;
+        mLockManager.getAppLock().setOnlyBackgroundIsLocked(false);
         onPinSuccess(mAttempts);
         mAttempts = 1;
     }

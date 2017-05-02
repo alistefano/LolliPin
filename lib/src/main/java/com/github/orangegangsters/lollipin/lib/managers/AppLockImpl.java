@@ -266,6 +266,13 @@ public class AppLockImpl<T extends AppLockActivity> extends AppLock implements L
     }
 
     @Override
+    public void setOnlyBackgroundIsLocked(boolean enabled) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(ONLY_BACKGROUND_IS_LOCKED_PREFERENCE_KEY, enabled);
+        editor.apply();
+    }
+
+    @Override
     public void setLastActiveMillis() {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(LAST_ACTIVE_MILLIS_PREFERENCE_KEY, System.currentTimeMillis());
@@ -406,6 +413,7 @@ public class AppLockImpl<T extends AppLockActivity> extends AppLock implements L
 
         if (shouldLockSceen(activity)) {
             Log.d(TAG, "mActivityClass.getClass() " + mActivityClass);
+            setOnlyBackgroundIsLocked(true);
             Intent intent = new Intent(activity.getApplicationContext(),
                     mActivityClass);
             intent.putExtra(AppLock.EXTRA_TYPE, AppLock.UNLOCK_PIN);

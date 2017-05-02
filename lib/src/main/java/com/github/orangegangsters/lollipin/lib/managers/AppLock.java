@@ -125,6 +125,8 @@ public abstract class AppLock {
      */
     public abstract void setOnlyBackgroundTimeout(boolean onlyBackgroundTimeout);
 
+    public abstract void setOnlyBackgroundIsLocked(boolean enabled);
+
     /**
      * Enable the {@link com.github.orangegangsters.lollipin.lib.managers.AppLock} by setting
      * {@link com.github.orangegangsters.lollipin.lib.managers.AppLockImpl} as the
