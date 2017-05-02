@@ -52,6 +52,11 @@ public class AppLockImpl<T extends AppLockActivity> extends AppLock implements L
      * The {@link android.content.SharedPreferences} key used to store the only background timeout option
      */
     private static final String ONLY_BACKGROUND_TIMEOUT_PREFERENCE_KEY = "ONLY_BACKGROUND_TIMEOUT_PREFERENCE_KEY";
+
+    /**
+     * The {@link android.content.SharedPreferences} key used to store the only background timeout option
+     */
+    private static final String ONLY_BACKGROUND_IS_LOCKED_PREFERENCE_KEY = "ONLY_BACKGROUND_IS_LOCKED_PREFERENCE_KEY";
     /**
      * The {@link SharedPreferences} key used to store whether the user has backed out of the {@link AppLockActivity}
      */
@@ -201,6 +206,11 @@ public class AppLockImpl<T extends AppLockActivity> extends AppLock implements L
     }
 
     @Override
+    public boolean onlyBackgroundIsLocked() {
+        return mSharedPreferences.getBoolean(ONLY_BACKGROUND_IS_LOCKED_PREFERENCE_KEY, false);
+    }
+
+    @Override
     public void setOnlyBackgroundTimeout(boolean onlyBackgroundTimeout) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putBoolean(ONLY_BACKGROUND_TIMEOUT_PREFERENCE_KEY, onlyBackgroundTimeout);
@@ -234,6 +244,7 @@ public class AppLockImpl<T extends AppLockActivity> extends AppLock implements L
                 .remove(SHOW_FORGOT_PREFERENCE_KEY)
                 .remove(FINGERPRINT_AUTH_ENABLED_PREFERENCE_KEY)
                 .remove(ONLY_BACKGROUND_TIMEOUT_PREFERENCE_KEY)
+                .remove(ONLY_BACKGROUND_IS_LOCKED_PREFERENCE_KEY)
                 .apply();
     }
 
@@ -379,7 +390,7 @@ public class AppLockImpl<T extends AppLockActivity> extends AppLock implements L
         String clazzName = activity.getClass().getName();
         Log.d(TAG, "onActivityPaused " + clazzName);
 
-        if ((onlyBackgroundTimeout() || !shouldLockSceen(activity)) && !(activity instanceof AppLockActivity)) {
+        if (((onlyBackgroundTimeout() && !onlyBackgroundIsLocked()) || !shouldLockSceen(activity)) && !(activity instanceof AppLockActivity)) {
             setLastActiveMillis();
         }
     }
