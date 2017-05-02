@@ -119,7 +119,7 @@ public abstract class AppLock {
      */
     public abstract boolean onlyBackgroundTimeout();
 
-    public abstract boolean boolean onlyBackgroundIsLocked();
+    public abstract boolean onlyBackgroundIsLocked();
     /**
      * Set whether the time spent on the activity must NOT be taken into account when calculating timeout.
      */
